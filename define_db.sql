@@ -24,7 +24,7 @@ CREATE TABLE usuarios (
 	ano_ingresso INT, --na república
 	curso_id VARCHAR(10) REFERENCES cursos(id),
 	comodo_id INT REFERENCES comodos(id),
-	senha_salted_hashed VARCHAR(30),
+	senha_salted_hashed VARCHAR(255),
 );
 CREATE TABLE usuario_areas ( --tabela associativa n:n
     usuario_id INT NOT NULL,
