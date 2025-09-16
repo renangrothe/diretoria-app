@@ -44,4 +44,5 @@ Além de seguir as bases teóricas de bancos de dados, engenharia de software, e
 ### Próximos passos
 
 - Migrar a nossa planilha de festas e integrar ao sistema web em desenvolvimento.
-
+- Controle de produtos
+- Horário de vendas de salgados

@@ -36,8 +36,8 @@ CREATE TABLE usuario_areas ( --tabela associativa n:n
 CREATE TABLE venda_salgado (
 	id SERIAL PRIMARY KEY,
 	data DATE UNIQUE NOT NULL,
-	valor_gasto MONEY NOT NULL,
-	valor_recebido MONEY NOT NULL,
+	valor_gasto NUMERIC(10,2) DEFAULT 0,
+	valor_recebido NUMERIC(10,2) DEFAULT 0,
 	observacao TEXT,
 	venda_ocorreu BOOLEAN NOT NULL DEFAULT TRUE
 );
@@ -48,3 +48,19 @@ CREATE TABLE vendedores_salgado (
     FOREIGN KEY (venda_salgado_id) REFERENCES venda_salgado(id) ON DELETE CASCADE,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
+CREATE TABLE produtos (
+	id SERIAL PRIMARY KEY,
+	nome VARCHAR(20),
+	custo_unitario NUMERIC(10,2) NOT NULL,
+	valor_venda NUMERIC(10,2) NOT NULL,
+	descricao TEXT
+);
+
+CREATE TABLE venda_produtos (
+	data_inicio DATE NOT NULL,
+	id_produto INT NOT NULL,
+	nome_produto VARCHAR (20) NOT NULL,
+	PRIMARY KEY (data_inicio, nome_produto),
+	FOREIGN KEY (id_produto) REFERENCES produtos(id)
+);
+
