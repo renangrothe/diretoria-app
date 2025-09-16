@@ -1,15 +1,16 @@
 CREATE TABLE turno (
-	turno_id UUID PRIMARY_KEY,
+	id SERIAL PRIMARY KEY,
 	horario VARCHAR(10) UNIQUE NOT NULL --integral/noturno
 );
 CREATE TABLE cursos (
-	curso_id VARCHAR(10) PRIMARY KEY,
+	id VARCHAR(10) PRIMARY KEY,
 	nome VARCHAR(20),
-	turno_id UUID REFERENCES turno(turno_id)
+	turno_id INT REFERENCES turno(turno_id)
 );
-CREATE TABLE quartos (
-	quarto_id UUID PRIMARY_KEY,
+CREATE TABLE comodos (
+	id SERIAL PRIMARY KEY,
 	comodo VARCHAR(20)
+
 );
 CREATE TABLE areas_administrativas (
 	id SERIAL PRIMARY KEY,
@@ -17,19 +18,33 @@ CREATE TABLE areas_administrativas (
 	descrição TEXT
 );
 CREATE TABLE usuarios (
-	email VARCHAR(255) PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
+	email VARCHAR(255) UNIQUE NOT NULL,
 	apelido VARCHAR(20),
 	ano_ingresso INT, --na república
-	curso_id VARCHAR(10) REFERENCES cursos(curso_id),
-	quarto_id UUID REFERENCES quartos(quarto_id),
+	curso_id VARCHAR(10) REFERENCES cursos(id),
+	comodo_id INT REFERENCES comodos(id),
 	senha_salted_hashed VARCHAR(30),
-
-
 );
 CREATE TABLE usuario_areas ( --tabela associativa n:n
     usuario_id INT NOT NULL,
     area_adm_id INT NOT NULL,
-    PRIMARY KEY (usuario_id, area_id),
+    PRIMARY KEY (usuario_id, area_adm_id),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-    FOREIGN KEY (area_id) REFERENCES areas_administrativas(id) ON DELETE CASCADE
+    FOREIGN KEY (area_adm_id) REFERENCES areas_administrativas(id) ON DELETE CASCADE
+);
+CREATE TABLE venda_salgado (
+	id SERIAL PRIMARY KEY,
+	data DATE UNIQUE NOT NULL,
+	valor_gasto MONEY NOT NULL,
+	valor_recebido MONEY NOT NULL,
+	observacao TEXT,
+	venda_ocorreu BOOLEAN NOT NULL DEFAULT TRUE
+);
+CREATE TABLE vendedores_salgado (
+	venda_salgado_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    PRIMARY KEY (venda_salgado_id, usuario_id),
+    FOREIGN KEY (venda_salgado_id) REFERENCES venda_salgado(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
