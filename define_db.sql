@@ -5,7 +5,7 @@ CREATE TABLE turno (
 CREATE TABLE cursos (
 	id VARCHAR(10) PRIMARY KEY,
 	nome VARCHAR(20),
-	turno_id INT REFERENCES turno(turno_id)
+	turno_id INT REFERENCES turno(id)
 );
 CREATE TABLE comodos (
 	id SERIAL PRIMARY KEY,
